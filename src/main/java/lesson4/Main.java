@@ -2,6 +2,8 @@ package lesson4;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
+import lesson5.ApiSearchResult;
+import lesson5.SpoonaccularService;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +14,9 @@ public class Main {
                 .setAddress("Address")
                 .setEmail("123@ya.ru")
                 .build();
+        SpoonaccularService spoonaccularService = new SpoonaccularService();
+        ApiSearchResult recipes = spoonaccularService.findRecipes("Bread", 3);
+        System.out.println(recipes);
 
         // DSL - domain specific language
 

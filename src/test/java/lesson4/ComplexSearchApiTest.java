@@ -3,6 +3,7 @@ package lesson4;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.ResponseSpecification;
+import lesson5.ApiSearchResult;
 import net.javacrumbs.jsonunit.JsonAssert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -22,6 +23,7 @@ import java.nio.file.FileSystems;
 import java.util.stream.Stream;
 
 import static net.javacrumbs.jsonunit.core.Option.IGNORING_ARRAY_ORDER;
+import static org.assertj.core.api.Assertions.as;
 import static org.hamcrest.Matchers.*;
 public class ComplexSearchApiTest extends BaseApiTest {
     @Test
@@ -39,7 +41,8 @@ public class ComplexSearchApiTest extends BaseApiTest {
                 .when() // переход к запросу
                 .get("/recipes/complexSearch")
                 .body()
-                .prettyPrint();  // возвращает json
+                .prettyPrint();// возвращает json
+                .as(ApiSearchResult.class);
 
         String expected = readResourceAsString("expected.json"); // прочитали из файла
 
@@ -92,6 +95,19 @@ public class ComplexSearchApiTest extends BaseApiTest {
         Arguments f3 = Arguments.of("https://bigoven-res.cloudinary.com/image/upload/t_recipe-256/hanger-steak-sandwich-with-bourbon-creamed-spinach-2204420.jpg");
         return Stream.of(f1, f2, f3);
     }
+
+    private String readResourceAsString(String resourceName) {
+        // ComplexSearchApiTest/resourceName
+        String path = getClass().getSimpleName() + FileSystems.getDefault().getSeparator() + resourceName;
+        try (InputStream inputStream = getClass().getResourceAsStream(path)) {
+            assert inputStream != null;
+            byte[] data = inputStream.readAllBytes();
+            return new String(data, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 //   /  сепаратор на Линуксе и на Маке
 //   \\ сепаратор на Винде
