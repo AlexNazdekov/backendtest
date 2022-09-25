@@ -53,6 +53,8 @@ public class ComplexSearchApiTest extends BaseApiTest {
         );
     }
 
+
+
 //    @ParameterizedTest
 //    void testImageRecognize() {
 //        String dir = getClass().getSimpleName() + FileSystems.getDefault().getSeparator();
